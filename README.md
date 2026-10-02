@@ -21,19 +21,23 @@ We appreciate the contributions of these open-source authors.
 - cmake 3.22
 
 ### Configure the environment
-The `dependency.sh` script will install the necessary tools: g++, cmake, and Rust. To run it, use the following command:
+The `dependency.sh` script installs the C++ build tools, CMake, Git, curl, CA certificates, and nightly Rust. Existing Rust installations and nightly toolchains are reused. Run it with root privileges:
 
 ```
 ./dependency.sh
 ```
 
-If you want to run UniZK in a Docker container, the `docker.sh` script will automatically create and start a new container and configure the requirements. Use this command:
+To run UniZK in a Docker container, the `docker.sh` script creates or reuses the `unizk` container, installs the dependencies, selects nightly Rust for `/UniZK`, and builds RamSim. It then leaves an interactive shell open in `/UniZK` with Cargo available. Use this command:
 
 ```
 ./docker.sh
 ```
 
-The files of the project will be copied into `/UniZK` within the container.
+The project directory is bind-mounted directly at `/UniZK`, so edits on the host are immediately visible in the container and vice versa. Rebuild or rerun the program to apply source changes. The script resolves the project directory from its own location, regardless of the current working directory.
+
+Setup runs on each invocation; Rust is reused and the RamSim build is incremental. The initial setup requires internet access to download packages, Rust, and RamSim's C++ dependencies. Setup stops on errors before opening the shell. Files created by the container's root user in the mounted directory will be owned by root on the host.
+
+Containers created by the old script must be replaced to use the new mount. The script will stop with instructions to preserve the old container by stopping and renaming it before rerunning `./docker.sh`. Installed tools in the old container are not transferred to the new one.
 
 ### Use a nightly toolchain for Plonky2
 ```

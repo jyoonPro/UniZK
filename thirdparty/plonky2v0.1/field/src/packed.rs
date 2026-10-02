@@ -112,7 +112,7 @@ unsafe impl<F: Field> PackedField for F {
         arr[0]
     }
     fn as_arr(&self) -> [Self::Scalar; Self::WIDTH] {
-        [*self]
+        [*self; Self::WIDTH]
     }
 
     fn from_slice(slice: &[Self::Scalar]) -> &Self {
