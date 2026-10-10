@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 cp configs/Cargo.toml Cargo.toml
 cargo run -r --example aes_starky
 cargo run -r --example aes_starky_recursive

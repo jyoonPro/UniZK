@@ -1,0 +1,3 @@
+[build]
+# Starky's generic const arrays trigger compiler ICEs with nightly's full trait solver.
+rustflags = ["-Znext-solver=coherence"]
